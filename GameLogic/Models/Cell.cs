@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace AntColony.GameLogic.Models;
 
 public abstract class Cell
@@ -26,10 +28,10 @@ public class Food : Cell
 public class Ant : Cell
 {
     public override int Type => 3;
-    public required int[,] Steps { get; set; }
+    public required List<Coordinate> Steps { get; set; }
 }
 
-public class Nest : Cell
+public class Hive : Cell
 {
     public override int Type => 4;
 }

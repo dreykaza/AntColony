@@ -9,7 +9,7 @@ public class Grid
     public List<Cell> Cells = [];
     public List<Ant> Ants = [];
 
-    public Grid(int lines, int collums)
+    public Grid(int lines, int collums, int ants)
     {
         ListInit(lines, collums);
     }
@@ -25,5 +25,28 @@ public class Grid
                 Cells.Add(new VoidCell { X = j, Y = i });
             }
         }
+    }
+
+    public void SwarmInit(int x, int y, int ants)
+    {
+        var index = Cells.FindIndex(h => h.X == x && h.Y == y);
+        Cells[index] = new Hive { X = x, Y = y };
+        for (int i = 0; i < ants; i++)
+        {
+            Ants.Add(
+                new Ant
+                {
+                    X = x,
+                    Y = y,
+                    Steps = new List<int[,]>(),
+                }
+            );
+        }
+    }
+
+    public void FoodInit(int x, int y)
+    {
+        var index = Cells.FindIndex(h => h.X == x && h.Y == y);
+        Cells[index] = new Food { X = x, Y = y };
     }
 }

@@ -4,15 +4,15 @@ using AntColony.GameLogic.Models;
 
 namespace AntColony.GameLogic.Algorithms;
 
-public class PathFinder(int a, int b, Grid grid)
+public class PathFinder(Grid grid)
 {
-    public int alpha = a;
-    public int betta = b;
+    public int alpha = 1;
+    public int betta = 1;
     public double ro = 0.5;
     public int Q = 10;
     private readonly Random _rng;
 
-    public static int Euristic(Cell Ant, Cell Food) =>
+    public static int Euristic(Ant Ant, Food Food) =>
         1 / (Math.Abs(Food.X - Ant.X) + Math.Abs(Food.Y - Ant.Y));
 
     public void PheramonDeacrese()
@@ -26,7 +26,7 @@ public class PathFinder(int a, int b, Grid grid)
         }
     }
 
-    public Cell Step(List<Cell> cells, Cell Ant, Cell Food)
+    public void Step(List<Cell> cells, Ant Ant, Food Food)
     {
         double[] _prefixsum = new double[cells.Count];
         int head = 0;
@@ -50,11 +50,11 @@ public class PathFinder(int a, int b, Grid grid)
         int idx = Array.BinarySearch(_prefixsum, x);
         if (idx >= 0)
         {
-            return cells[idx];
+            Ant.Steps.Add(new Coordinate() { X = cells[idx].X, Y = cells[idx].Y });
         }
         else
         {
-            return cells[~idx];
+            Ant.Steps.Add(new Coordinate() { X = cells[~idx].X, Y = cells[~idx].Y });
         }
     }
 
@@ -66,10 +66,12 @@ public class PathFinder(int a, int b, Grid grid)
 
     public void AntPheramon(Ant ant)
     {
-        double tao = Q / ant.Steps.GetLength(0);
-        for (int i = 0; i < ant.Steps.GetLength(0); i++)
+        int Count = 0;
+        double tao = Q / ant.Steps.Count;
+        foreach (var i in ant.Steps)
         {
-            grid.Pheramons[ant.Steps[i, 0], ant.Steps[i, 1]] += tao;
+            grid.Pheramons[i.X, i.Y] += tao;
+            Count++;
         }
     }
 }
