@@ -11,11 +11,11 @@ public class Grid
     public Food food;
     public Hive hive;
 
-    public Grid(int lines, int collums, int ants, int antx, int anty, int foodx, int foody)
+    public Grid(int lines, int collums, int ants, Hive hiveUI, Food foodUI)
     {
         ListInit(lines, collums);
-        SwarmInit(antx, anty, ants);
-        FoodInit(foodx, foody);
+        SwarmInit(hiveUI, ants);
+        FoodInit(foodUI);
     }
 
     public void ListInit(int lines, int collums)
@@ -31,18 +31,18 @@ public class Grid
         }
     }
 
-    public void SwarmInit(int x, int y, int ants)
+    public void SwarmInit(Hive hiveUI, int ants)
     {
-        var index = Cells.FindIndex(h => h.X == x && h.Y == y);
-        Cells[index] = new Hive { X = x, Y = y };
-        hive = new Hive { X = x, Y = y };
+        var index = Cells.FindIndex(h => h.X == hiveUI.X && h.Y == hiveUI.Y);
+        Cells[index] = new Hive { X = hiveUI.X, Y = hiveUI.Y };
+        hive = new Hive { X = hiveUI.X, Y = hiveUI.Y };
         for (int i = 0; i < ants; i++)
         {
             Ants.Add(
                 new Ant
                 {
-                    X = x,
-                    Y = y,
+                    X = hiveUI.X,
+                    Y = hiveUI.Y,
                     Steps = new List<Coordinate>(),
                     CarryFood = false,
                 }
@@ -50,10 +50,10 @@ public class Grid
         }
     }
 
-    public void FoodInit(int x, int y)
+    public void FoodInit(Food foodUI)
     {
-        var index = Cells.FindIndex(h => h.X == x && h.Y == y);
-        Cells[index] = new Food { X = x, Y = y };
-        food = new Food { X = x, Y = y };
+        var index = Cells.FindIndex(h => h.X == food.X && h.Y == food.Y);
+        Cells[index] = new Food { X = food.X, Y = food.Y };
+        food = new Food { X = food.X, Y = food.Y };
     }
 }
