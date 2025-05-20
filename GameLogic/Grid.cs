@@ -8,10 +8,14 @@ public class Grid
     public double[,] Pheramons;
     public List<Cell> Cells = [];
     public List<Ant> Ants = [];
+    public Food food;
+    public Hive hive;
 
-    public Grid(int lines, int collums, int ants)
+    public Grid(int lines, int collums, int ants, int antx, int anty, int foodx, int foody)
     {
         ListInit(lines, collums);
+        SwarmInit(antx, anty, ants);
+        FoodInit(foodx, foody);
     }
 
     public void ListInit(int lines, int collums)
@@ -31,6 +35,7 @@ public class Grid
     {
         var index = Cells.FindIndex(h => h.X == x && h.Y == y);
         Cells[index] = new Hive { X = x, Y = y };
+        hive = new Hive { X = x, Y = y };
         for (int i = 0; i < ants; i++)
         {
             Ants.Add(
@@ -38,7 +43,8 @@ public class Grid
                 {
                     X = x,
                     Y = y,
-                    Steps = new List<int[,]>(),
+                    Steps = new List<Coordinate>(),
+                    CarryFood = false,
                 }
             );
         }
@@ -48,5 +54,6 @@ public class Grid
     {
         var index = Cells.FindIndex(h => h.X == x && h.Y == y);
         Cells[index] = new Food { X = x, Y = y };
+        food = new Food { X = x, Y = y };
     }
 }

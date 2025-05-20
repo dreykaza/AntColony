@@ -29,6 +29,7 @@ public class Ant : Cell
 {
     public override int Type => 3;
     public required List<Coordinate> Steps { get; set; }
+    public required bool CarryFood { get; set; }
 }
 
 public class Hive : Cell

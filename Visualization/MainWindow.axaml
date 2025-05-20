@@ -2,8 +2,29 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="AntColony.MainWindow"
-        Title="AntColony">
-    Welcome to Avalonia!
+        xmlns:local="clr-namespace:AntColony"
+        mc:Ignorable="d"
+        Width="800" Height="600"
+        x:Class="AntColony.Visualization.MainWindow"
+        Title="Ant Colony">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+<StackPanel Grid.Column="0" Margin="10" Spacing="10">
+    <TextBlock Text="Number of Ants:"/>
+    <TextBox x:Name="NumberOfAntsInput" Watermark="Enter number..." Text="10"/>
+    <Button Content="Старт!" Click="StartButton_Click" HorizontalAlignment="Stretch"/>
+</StackPanel>
+
+        <!-- Основная сетка -->
+        <ScrollViewer Grid.Column="1" Margin="10">
+            <UniformGrid x:Name="GridContainer" 
+                        Rows="20" 
+                        Columns="20"
+                        Background="LightGray"/>
+        </ScrollViewer>
+    </Grid>
 </Window>

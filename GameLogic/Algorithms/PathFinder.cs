@@ -64,6 +64,23 @@ public class PathFinder(Grid grid)
         return cells;
     }
 
+    public void isFood(Food food, Ant ant)
+    {
+        if (food.X == ant.X && food.Y == ant.Y)
+        {
+            ant.CarryFood = true;
+        }
+    }
+
+    public bool isEnd(Hive hive, Ant ant)
+    {
+        if (hive.X == ant.X && hive.Y == ant.Y && ant.CarryFood)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public void AntPheramon(Ant ant)
     {
         int Count = 0;
