@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using AntColony.GameLogic.Models;
 
@@ -6,11 +5,11 @@ namespace AntColony.GameLogic;
 
 public class Grid
 {
-    public double[,] Pheramons;
+    public static double[,] Pheramons;
     public static List<Cell> Cells = [];
     public static List<Ant> Ants = [];
-    public Food food;
-    public Hive hive;
+    public static Food food;
+    public static Hive hive;
 
     public Grid(int lines, int collums, int ants, Hive hiveUI, Food foodUI)
     {

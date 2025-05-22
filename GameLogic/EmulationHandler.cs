@@ -5,17 +5,16 @@ using AntColony.GameLogic.Models;
 
 namespace AntColony.GameLogic;
 
-public class EmulationHandler(Grid grid)
+public class EmulationHandler()
 {
-    private Timer _timer;
-    public PathFinder pathFinder = new(grid);
+    private static Timer _timer;
 
-    public void Start()
+    public static void Start()
     {
         _timer = new Timer(Update, null, dueTime: 0, period: 500);
     }
 
-    public void Update(object obj)
+    public static void Update(object obj)
     {
         foreach (var ant in Grid.Ants)
         {
@@ -26,18 +25,18 @@ public class EmulationHandler(Grid grid)
                 new VoidCell { X = ant.X, Y = ant.Y - 1 },
                 new VoidCell { X = ant.X, Y = ant.Y + 1 },
             };
-            pathFinder.Step(AvalibaleCells, ant, grid.food);
-            pathFinder.isFood(grid.food, ant);
+            PathFinder.Step(AvalibaleCells, ant, Grid.food);
+            PathFinder.isFood(Grid.food, ant);
         }
 
-        Core.Recive();
+        Core.Receive();
     }
 
     public void AntCheck(Ant ant)
     {
         if (ant.CarryFood)
         {
-            pathFinder.isEnd(grid.hive, ant);
+            PathFinder.isEnd(Grid.hive, ant);
         }
     }
 }

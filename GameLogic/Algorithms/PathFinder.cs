@@ -4,29 +4,29 @@ using AntColony.GameLogic.Models;
 
 namespace AntColony.GameLogic.Algorithms;
 
-public class PathFinder(Grid grid)
+public class PathFinder()
 {
-    public int alpha = 1;
-    public int betta = 1;
-    public double ro = 0.5;
-    public int Q = 10;
-    private readonly Random _rng;
+    public static int alpha = 1;
+    public static int betta = 1;
+    public static double ro = 0.5;
+    public static int Q = 10;
+    private static readonly Random _rng;
 
     public static int Euristic(Ant Ant, Food Food) =>
         1 / (Math.Abs(Food.X - Ant.X) + Math.Abs(Food.Y - Ant.Y));
 
     public void PheramonDeacrese()
     {
-        for (int i = 0; i < grid.Pheramons.GetLength(0); i++)
+        for (int i = 0; i < Grid.Pheramons.GetLength(0); i++)
         {
-            for (int j = 0; j < grid.Pheramons.GetLength(1); j++)
+            for (int j = 0; j < Grid.Pheramons.GetLength(1); j++)
             {
-                grid.Pheramons[i, j] = grid.Pheramons[i, j] * (1 - ro);
+                Grid.Pheramons[i, j] = Grid.Pheramons[i, j] * (1 - ro);
             }
         }
     }
 
-    public void Step(List<Cell> cells, Ant Ant, Food Food)
+    public static void Step(List<Cell> cells, Ant Ant, Food Food)
     {
         double[] _prefixsum = new double[cells.Count];
         int head = 0;
@@ -34,13 +34,13 @@ public class PathFinder(Grid grid)
         foreach (var cell in cells)
         {
             double frst =
-                Math.Pow(grid.Pheramons[cell.Y, cell.X], alpha)
+                Math.Pow(Grid.Pheramons[cell.Y, cell.X], alpha)
                 * Math.Pow(Euristic(Ant, Food), betta);
             double second = 0;
             for (int i = 0; i < cells.Count; i++)
             {
                 second +=
-                    Math.Pow(grid.Pheramons[cell.Y, cell.X], alpha)
+                    Math.Pow(Grid.Pheramons[cell.Y, cell.X], alpha)
                     * Math.Pow(Euristic(Ant, Food), betta);
             }
             _prefixsum[head] = frst / second;
@@ -64,7 +64,7 @@ public class PathFinder(Grid grid)
         return cells;
     }
 
-    public void isFood(Food food, Ant ant)
+    public static void isFood(Food food, Ant ant)
     {
         if (food.X == ant.X && food.Y == ant.Y)
         {
@@ -72,7 +72,7 @@ public class PathFinder(Grid grid)
         }
     }
 
-    public bool isEnd(Hive hive, Ant ant)
+    public static bool isEnd(Hive hive, Ant ant)
     {
         if (hive.X == ant.X && hive.Y == ant.Y && ant.CarryFood)
         {
@@ -87,7 +87,7 @@ public class PathFinder(Grid grid)
         double tao = Q / ant.Steps.Count;
         foreach (var i in ant.Steps)
         {
-            grid.Pheramons[i.X, i.Y] += tao;
+            Grid.Pheramons[i.X, i.Y] += tao;
             Count++;
         }
     }
