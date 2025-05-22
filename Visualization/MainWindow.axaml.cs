@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 
@@ -10,7 +7,7 @@ namespace AntColony.Visualization
     public partial class MainWindow : Window
     {
         private const int GridSize = 20;
-        public ObservableCollection<CellData> Cells { get; } = new();
+        public static ObservableCollection<CellData> Cells { get; } = new();
 
         public MainWindow()
         {
@@ -45,12 +42,12 @@ namespace AntColony.Visualization
         {
             // Теперь можно напрямую использовать коллекцию Cells
             var antsCount = int.Parse(NumberOfAntsInput.Text);
-            StartSimulation(antsCount, Cells.ToList());
+            StartSimulation(antsCount);
         }
 
-        private void StartSimulation(int antsCount, List<CellData> cellsData)
+        private void StartSimulation(int antsCount)
         {
-            Core core = new(antsCount, cellsData);
+            Core core = new(antsCount);
         }
     }
 }

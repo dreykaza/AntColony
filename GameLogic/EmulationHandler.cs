@@ -17,7 +17,7 @@ public class EmulationHandler(Grid grid)
 
     public void Update(object obj)
     {
-        foreach (var ant in grid.Ants)
+        foreach (var ant in Grid.Ants)
         {
             List<Cell> AvalibaleCells = new()
             {
@@ -28,10 +28,16 @@ public class EmulationHandler(Grid grid)
             };
             pathFinder.Step(AvalibaleCells, ant, grid.food);
             pathFinder.isFood(grid.food, ant);
-            if (ant.CarryFood)
-            {
-                pathFinder.isEnd(grid.hive, ant);
-            }
+        }
+
+        Core.Recive();
+    }
+
+    public void AntCheck(Ant ant)
+    {
+        if (ant.CarryFood)
+        {
+            pathFinder.isEnd(grid.hive, ant);
         }
     }
 }

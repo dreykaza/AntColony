@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AntColony.GameLogic.Models;
 
@@ -6,8 +7,8 @@ namespace AntColony.GameLogic;
 public class Grid
 {
     public double[,] Pheramons;
-    public List<Cell> Cells = [];
-    public List<Ant> Ants = [];
+    public static List<Cell> Cells = [];
+    public static List<Ant> Ants = [];
     public Food food;
     public Hive hive;
 
@@ -52,8 +53,8 @@ public class Grid
 
     public void FoodInit(Food foodUI)
     {
-        var index = Cells.FindIndex(h => h.X == food.X && h.Y == food.Y);
-        Cells[index] = new Food { X = food.X, Y = food.Y };
-        food = new Food { X = food.X, Y = food.Y };
+        var index = Cells.FindIndex(h => h.X == foodUI.X && h.Y == foodUI.Y);
+        Cells[index] = new Food { X = foodUI.X, Y = foodUI.Y };
+        food = new Food { X = foodUI.X, Y = foodUI.Y };
     }
 }
