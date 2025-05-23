@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AntColony.GameLogic.Models;
+using AntColony.Visualization;
 
 namespace AntColony.GameLogic.Algorithms;
 
@@ -12,8 +14,8 @@ public class PathFinder()
     public static int Q = 10;
     private static readonly Random _rng = new();
 
-    public static double Euristic(Ant ant) =>
-        1.0 / (Math.Abs(Grid.food.X - ant.X) + Math.Abs(Grid.food.Y - ant.Y));
+    public static double Euristic(Cell cell) =>
+        1.0 / (Math.Abs(Grid.food.X - cell.X) + Math.Abs(Grid.food.Y - cell.Y));
 
     public void PheramonDeacrese()
     {
@@ -28,44 +30,57 @@ public class PathFinder()
 
     public static void Step(List<Cell> cells, Ant Ant, Food Food)
     {
-        double[] _prefixsum = new double[cells.Count];
-        int head = 0;
+        int n = cells.Count;
+        double[] prefixSum = new double[n];
         double sum = 0;
         double x = _rng.NextDouble();
-        foreach (var cell in cells)
+
+        double denom = 0;
+        foreach (var nbr in cells)
         {
-            double frst =
-                Math.Pow(Grid.Pheramons[cell.Y, cell.X], alpha) * Math.Pow(Euristic(Ant), betta);
-            double second = 0;
-            for (int i = 0; i < cells.Count; i++)
-            {
-                second +=
-                    Math.Pow(Grid.Pheramons[cell.Y, cell.X], alpha)
-                    * Math.Pow(Euristic(Ant), betta);
-            }
-            sum += frst / second;
-            _prefixsum[head] = sum;
-            head++;
+            double t = Math.Pow(Grid.Pheramons[nbr.Y, nbr.X], alpha);
+            double e = Math.Pow(Euristic(nbr), betta);
+            denom += t * e;
         }
-        int idx = Array.BinarySearch(_prefixsum, x);
-        if (idx >= 0)
+
+        for (int i = 0; i < n; i++)
         {
-            Ant.X = cells[idx].X;
-            Ant.Y = cells[idx].Y;
-            Ant.Steps.Add(new Coordinate() { X = cells[idx].X, Y = cells[idx].Y });
+            var cell = cells[i];
+            double t = Math.Pow(Grid.Pheramons[cell.Y, cell.X], alpha);
+            double e = Math.Pow(Euristic(cell), betta);
+
+            double p = (t * e) / denom;
+
+            sum += p;
+            prefixSum[i] = sum;
         }
-        else
-        {
-            Ant.X = cells[~idx].X;
-            Ant.Y = cells[~idx].Y;
-            Ant.Steps.Add(new Coordinate() { X = cells[~idx].X, Y = cells[~idx].Y });
-        }
+
+        int idx = Array.BinarySearch(prefixSum, x);
+        if (idx < 0)
+            idx = ~idx;
+
+        Ant.X = cells[idx].X;
+        Ant.Y = cells[idx].Y;
+        Ant.Steps.Add(new Coordinate { X = Ant.X, Y = Ant.Y });
     }
 
-    public List<Cell> CheckDir(List<Cell> cells)
+    public static List<Cell> CheckDir(Ant ant)
     {
-        cells.RemoveAll(c => c.Type == 1);
-        return cells;
+        var cellsList = MainWindow.Cells.Where(c => c.Type == 1).ToList();
+        List<Cell> AvalibaleCells = new()
+        {
+            new VoidCell { X = ant.X - 1, Y = ant.Y },
+            new VoidCell { X = ant.X + 1, Y = ant.Y },
+            new VoidCell { X = ant.X, Y = ant.Y - 1 },
+            new VoidCell { X = ant.X, Y = ant.Y + 1 },
+        };
+
+        var cells = MainWindow.Cells.Where(c => c.Type == 1);
+
+        var occupiedCoords = new HashSet<(int X, int Y)>(cells.Select(c => (c.X, c.Y)));
+
+        AvalibaleCells.RemoveAll(av => occupiedCoords.Contains((av.X, av.Y)));
+        return AvalibaleCells;
     }
 
     public static void isFood(Food food, Ant ant)

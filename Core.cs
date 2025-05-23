@@ -29,7 +29,7 @@ public class Core
             X = MainWindow.Cells.FirstOrDefault(c => c.Type == 2).X,
             Y = MainWindow.Cells.FirstOrDefault(c => c.Type == 2).Y,
         };
-        Grid grid = new(MainWindow.Cells[399].Y, MainWindow.Cells[399].X, antsCount, hive, food);
+        Grid grid = new(20, 20, antsCount, hive, food);
     }
 
     public static void Receive()

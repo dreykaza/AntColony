@@ -19,14 +19,7 @@ public class EmulationHandler()
     {
         foreach (var ant in Grid.Ants)
         {
-            List<Cell> AvalibaleCells = new()
-            {
-                new VoidCell { X = ant.X - 1, Y = ant.Y },
-                new VoidCell { X = ant.X + 1, Y = ant.Y },
-                new VoidCell { X = ant.X, Y = ant.Y - 1 },
-                new VoidCell { X = ant.X, Y = ant.Y + 1 },
-            };
-            PathFinder.Step(AvalibaleCells, ant, Grid.food);
+            PathFinder.Step(PathFinder.CheckDir(ant), ant, Grid.food);
             PathFinder.isFood(Grid.food, ant);
         }
         
