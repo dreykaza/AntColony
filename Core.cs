@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using AntColony.GameLogic;
 using AntColony.GameLogic.Models;
@@ -7,9 +9,12 @@ namespace AntColony;
 
 public class Core
 {
+    private static Dictionary<Ant, (int prevX, int prevY)> _antPositions = new();
+
     public Core(int antsCount)
     {
         Parser(antsCount);
+        EmulationHandler.Start();
     }
 
     public void Parser(int antsCount)
@@ -29,19 +34,31 @@ public class Core
 
     public static void Receive()
     {
-        foreach (var item in Grid.Ants)
+        var cells = MainWindow.Cells;
+
+        foreach (var ant in Grid.Ants)
         {
-            int index =
-                MainWindow
-                    .Cells.Select((cell, i) => new { cell, i })
-                    .FirstOrDefault(x => x.cell.X == item.X && x.cell.Y == item.Y)
-                    ?.i ?? -1;
-            MainWindow.Cells[index] = new CellData
+            if (_antPositions.TryGetValue(ant, out var prevPos))
             {
-                X = item.X,
-                Y = item.Y,
-                Type = 3,
-            };
+                var prevCell = cells.FirstOrDefault(c =>
+                    c.X == prevPos.prevX && c.Y == prevPos.prevY
+                );
+                if (!(prevCell.X == Grid.hive.X && prevCell.Y == Grid.hive.Y))
+                {
+                    prevCell.Type = 0;
+                }
+            }
+
+            var currentCell = cells.FirstOrDefault(c => c.X == ant.X && c.Y == ant.Y);
+            if (currentCell != null)
+            {
+                if (!(currentCell.X == Grid.hive.X && currentCell.Y == Grid.hive.Y))
+                {
+                    currentCell.Type = 3;
+                }
+
+                _antPositions[ant] = (ant.X, ant.Y);
+            }
         }
     }
 }

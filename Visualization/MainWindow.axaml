@@ -15,7 +15,7 @@
 
 <StackPanel Grid.Column="0" Margin="10" Spacing="10">
     <TextBlock Text="Number of Ants:"/>
-    <TextBox x:Name="NumberOfAntsInput" Watermark="Enter number..." Text="10"/>
+    <TextBox x:Name="NumberOfAntsInput" Watermark="Enter number..." Text="1"/>
     <Button Content="Старт!" Click="StartButton_Click" HorizontalAlignment="Stretch"/>
 </StackPanel>
 

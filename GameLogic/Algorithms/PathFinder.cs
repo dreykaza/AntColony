@@ -10,10 +10,10 @@ public class PathFinder()
     public static int betta = 1;
     public static double ro = 0.5;
     public static int Q = 10;
-    private static readonly Random _rng;
+    private static readonly Random _rng = new();
 
-    public static int Euristic(Ant Ant, Food Food) =>
-        1 / (Math.Abs(Food.X - Ant.X) + Math.Abs(Food.Y - Ant.Y));
+    public static double Euristic(Ant ant) =>
+        1.0 / (Math.Abs(Grid.food.X - ant.X) + Math.Abs(Grid.food.Y - ant.Y));
 
     public void PheramonDeacrese()
     {
@@ -30,30 +30,34 @@ public class PathFinder()
     {
         double[] _prefixsum = new double[cells.Count];
         int head = 0;
+        double sum = 0;
         double x = _rng.NextDouble();
         foreach (var cell in cells)
         {
             double frst =
-                Math.Pow(Grid.Pheramons[cell.Y, cell.X], alpha)
-                * Math.Pow(Euristic(Ant, Food), betta);
+                Math.Pow(Grid.Pheramons[cell.Y, cell.X], alpha) * Math.Pow(Euristic(Ant), betta);
             double second = 0;
             for (int i = 0; i < cells.Count; i++)
             {
                 second +=
                     Math.Pow(Grid.Pheramons[cell.Y, cell.X], alpha)
-                    * Math.Pow(Euristic(Ant, Food), betta);
+                    * Math.Pow(Euristic(Ant), betta);
             }
-            _prefixsum[head] = frst / second;
+            sum += frst / second;
+            _prefixsum[head] = sum;
             head++;
         }
-
         int idx = Array.BinarySearch(_prefixsum, x);
         if (idx >= 0)
         {
+            Ant.X = cells[idx].X;
+            Ant.Y = cells[idx].Y;
             Ant.Steps.Add(new Coordinate() { X = cells[idx].X, Y = cells[idx].Y });
         }
         else
         {
+            Ant.X = cells[~idx].X;
+            Ant.Y = cells[~idx].Y;
             Ant.Steps.Add(new Coordinate() { X = cells[~idx].X, Y = cells[~idx].Y });
         }
     }

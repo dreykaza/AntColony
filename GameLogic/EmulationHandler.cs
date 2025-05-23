@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using AntColony.GameLogic.Algorithms;
@@ -28,7 +29,7 @@ public class EmulationHandler()
             PathFinder.Step(AvalibaleCells, ant, Grid.food);
             PathFinder.isFood(Grid.food, ant);
         }
-
+        
         Core.Receive();
     }
 
