@@ -14,8 +14,13 @@ public class PathFinder()
     public static int Q = 10;
     private static readonly Random _rng = new();
 
-    public static double Euristic(Cell cell) =>
-        1.0 / (Math.Abs(Grid.food.X - cell.X) + Math.Abs(Grid.food.Y - cell.Y));
+    public static double Euristic(Cell cell)
+    {
+        double result = 1.0 / (Math.Abs(Grid.food.X - cell.X) + Math.Abs(Grid.food.Y - cell.Y));
+        if (double.IsInfinity(result))
+            result = 1;
+        return result;
+    }
 
     public void PheramonDeacrese()
     {
@@ -28,7 +33,7 @@ public class PathFinder()
         }
     }
 
-    public static void Step(List<Cell> cells, Ant Ant, Food Food)
+    public static void Step(List<Cell> cells, Ant Ant)
     {
         int n = cells.Count;
         double[] prefixSum = new double[n];
@@ -54,13 +59,12 @@ public class PathFinder()
             sum += p;
             prefixSum[i] = sum;
         }
-
         int idx = Array.BinarySearch(prefixSum, x);
         if (idx < 0)
             idx = ~idx;
-
         Ant.X = cells[idx].X;
         Ant.Y = cells[idx].Y;
+
         Ant.Steps.Add(new Coordinate { X = Ant.X, Y = Ant.Y });
     }
 

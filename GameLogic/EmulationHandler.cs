@@ -19,10 +19,10 @@ public class EmulationHandler()
     {
         foreach (var ant in Grid.Ants)
         {
-            PathFinder.Step(PathFinder.CheckDir(ant), ant, Grid.food);
+            PathFinder.Step(PathFinder.CheckDir(ant), ant);
             PathFinder.isFood(Grid.food, ant);
         }
-        
+
         Core.Receive();
     }
 

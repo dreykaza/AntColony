@@ -40,22 +40,25 @@ public class Core
         {
             if (_antPositions.TryGetValue(ant, out var prevPos))
             {
-                var prevCell = cells.FirstOrDefault(c =>
-                    c.X == prevPos.prevX && c.Y == prevPos.prevY
-                );
-                if (!(prevCell.X == Grid.hive.X && prevCell.Y == Grid.hive.Y))
+                if (
+                    cells.FirstOrDefault(c => c.X == prevPos.prevX && c.Y == prevPos.prevY)
+                    is CellData prevCell
+                )
                 {
-                    prevCell.Type = 0;
+                    prevCell.Type = !(prevCell.X == Grid.food.X && prevCell.Y == Grid.food.Y)
+                        ? 0
+                        : 2;
+                    prevCell.Type = !(prevCell.X == Grid.hive.X && prevCell.Y == Grid.hive.Y)
+                        ? 0
+                        : 4;
+
+                    _antPositions[ant] = (ant.X, ant.Y);
                 }
             }
-
-            var currentCell = cells.FirstOrDefault(c => c.X == ant.X && c.Y == ant.Y);
-            if (currentCell != null)
+            if (cells.FirstOrDefault(c => c.X == ant.X && c.Y == ant.Y) is CellData currentCell)
             {
-                if (!(currentCell.X == Grid.hive.X && currentCell.Y == Grid.hive.Y))
-                {
-                    currentCell.Type = 3;
-                }
+                currentCell.Type =
+                    (currentCell.X == Grid.food.X && currentCell.Y == Grid.food.Y) ? 2 : 3;
 
                 _antPositions[ant] = (ant.X, ant.Y);
             }
