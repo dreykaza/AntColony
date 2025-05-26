@@ -12,9 +12,9 @@
             BorderThickness="1"
             Background="{Binding Data.Type, Converter={x:Static local:CellTypeToColorConverter.Instance}}"
             PointerPressed="CellBorder_OnPointerPressed">
-<TextBlock Text="{Binding Data.Coordinates}"
+<TextBlock Text="{Binding Data.Coordinates}" 
            Foreground="DarkGray"
-           FontSize="8"
+           FontSize="12"
            HorizontalAlignment="Center"
            VerticalAlignment="Center"/>
     </Border>

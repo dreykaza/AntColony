@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Threading;
 using AntColony.GameLogic.Algorithms;
 using AntColony.GameLogic.Models;
@@ -10,27 +8,28 @@ public class EmulationHandler()
 {
     private static Timer _timer;
 
-    public static void Start()
-    {
-        _timer = new Timer(Update, null, dueTime: 0, period: 500);
-    }
+    public static void Start() => _timer = new Timer(Update, null, dueTime: 0, period: 100);
 
     public static void Update(object obj)
     {
         foreach (var ant in Grid.Ants)
         {
             PathFinder.Step(PathFinder.CheckDir(ant), ant);
-            PathFinder.isFood(Grid.food, ant);
+            PathFinder.isFood(ant);
+            AntCheck(ant);
         }
 
+        PathFinder.PheramonDeacrese();
         Core.Receive();
     }
 
-    public void AntCheck(Ant ant)
+    public static void AntCheck(Ant ant)
     {
-        if (ant.CarryFood)
+        if (PathFinder.isEnd(ant))
         {
-            PathFinder.isEnd(Grid.hive, ant);
+            PathFinder.AntPheramon(ant);
+            ant.CarryFood = false;
+            ant.Steps.Clear();
         }
     }
 }

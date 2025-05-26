@@ -63,5 +63,6 @@ public class Core
 
             _antPositions[ant] = (ant.X, ant.Y);
         }
+        CellData.RefreshAllCells();
     }
 }

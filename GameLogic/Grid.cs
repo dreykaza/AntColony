@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AntColony.GameLogic.Models;
 
 namespace AntColony.GameLogic;
@@ -25,7 +26,7 @@ public class Grid
         {
             for (int j = 0; j < collums; j++)
             {
-                Pheramons[i, j] = 0.1;
+                Pheramons[i, j] = 10;
                 Cells.Add(new VoidCell { X = j, Y = i });
             }
         }
@@ -48,6 +49,12 @@ public class Grid
                 }
             );
         }
+    }
+
+    public static string AntInCell(int x, int y)
+    {
+        int count = Ants.Count(a => a.X == x && a.Y == y);
+        return count.ToString();
     }
 
     public void FoodInit(Food foodUI)
