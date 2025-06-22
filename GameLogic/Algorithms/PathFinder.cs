@@ -28,7 +28,7 @@ public class PathFinder()
         {
             for (int j = 0; j < Grid.Pheramons.GetLength(1); j++)
             {
-                Grid.Pheramons[i, j] *= (1 - ro);
+                Grid.Pheramons[i, j] *= 1 - ro;
             }
         }
     }
@@ -58,7 +58,7 @@ public class PathFinder()
             double t = Math.Pow(Grid.Pheramons[cell.Y, cell.X], alpha);
             double e = Math.Pow(Euristic(cell, target), betta);
 
-            double p = (t * e) / denom;
+            double p = t * e / denom;
 
             sum += p;
             prefixSum[i] = sum;
@@ -74,14 +74,13 @@ public class PathFinder()
 
     public static List<Cell> CheckDir(Ant ant)
     {
-        var cellsList = MainWindow.Cells.Where(c => c.Type == 1).ToList();
-        List<Cell> AvalibaleCells = new()
-        {
+        List<Cell> AvalibaleCells =
+        [
             new VoidCell { X = ant.X - 1, Y = ant.Y },
             new VoidCell { X = ant.X + 1, Y = ant.Y },
             new VoidCell { X = ant.X, Y = ant.Y - 1 },
             new VoidCell { X = ant.X, Y = ant.Y + 1 },
-        };
+        ];
 
         var cells = MainWindow.Cells.Where(c => c.Type == 1);
 

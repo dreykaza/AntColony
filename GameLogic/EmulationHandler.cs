@@ -8,7 +8,7 @@ public class EmulationHandler()
 {
     private static Timer _timer;
 
-    public static void Start() => _timer = new Timer(Update, null, dueTime: 0, period: 100);
+    public static void Start() => _timer = new Timer(Update, null, dueTime: 0, period: 150);
 
     public static void Update(object obj)
     {

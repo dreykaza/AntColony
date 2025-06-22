@@ -26,7 +26,7 @@ public class Grid
         {
             for (int j = 0; j < collums; j++)
             {
-                Pheramons[i, j] = 10;
+                Pheramons[i, j] = 50;
                 Cells.Add(new VoidCell { X = j, Y = i });
             }
         }
@@ -44,7 +44,7 @@ public class Grid
                 {
                     X = hiveUI.X,
                     Y = hiveUI.Y,
-                    Steps = new List<Coordinate>(),
+                    Steps = [],
                     CarryFood = false,
                 }
             );

@@ -9,7 +9,7 @@ namespace AntColony.Visualization
     {
         private const int GridSize = 20;
         public static ObservableCollection<CellData> Cells { get; } = new();
-        public static int count = 0;
+        private bool _started;
 
         public MainWindow()
         {
@@ -43,15 +43,14 @@ namespace AntColony.Visualization
         private void StartButton_Click(object? sender, RoutedEventArgs e)
         {
             var antsCount = int.Parse(NumberOfAntsInput.Text);
-            if (count == 0)
+            if (_started)
             {
-                StartSimulation(antsCount);
-                count++;
+                Console.WriteLine("Already running");
+                return;
             }
-            else
-            {
-                Console.WriteLine("Alredy running");
-            }
+
+            _started = true;
+            StartSimulation(antsCount);
         }
 
         private void StartSimulation(int antsCount)
