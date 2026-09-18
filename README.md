@@ -1,4 +1,5 @@
 # AntColony
+
 ![ui](grid.png)
 
 I made this project mostly as an algorithmic challenge for myself.
@@ -14,6 +15,18 @@ The simulation has its own `Grid`, `Ant`, `Food`, `Hive` and pheromone map, whil
 I also split the cell types into their own classes instead of representing everything with random numbers. So a cell can actually be a `Wall`, `Food`, `Ant`, `Hive` or just an empty cell.
 
 I just wanted to take an algorithm that looked interesting, understand how it actually works by implementing it myself, and see whether I could make the whole thing fit together cleanly.
+
+### Different distances
+
+The same algorithm behaves differently depending on how far the food is from the hive.
+
+With the food relatively close, ants can find a useful path pretty quickly:
+
+![short path](close.png)
+
+With a larger distance between the hive and the food, there is much more room for exploration before a useful path starts getting reinforced:
+
+![long path](far.png)
 
 ### Structure
 
