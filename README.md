@@ -1,7 +1,5 @@
 # AntColony
 
-![ui](grid.png)
-
 I made this project mostly as an algorithmic challenge for myself.
 
 I wanted to take something actually interesting — an ant colony optimization approach — and see if I could build a small working simulation around it instead of just reading about the algorithm.
